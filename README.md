@@ -1,6 +1,6 @@
 # Microservices Design Patterns
 
-A comprehensive collection of **5 essential microservices design patterns** — each with detailed documentation, architecture diagrams, and working demo projects in **Java** and **Python**.
+A comprehensive collection of **6 essential microservices design patterns** — each with detailed documentation, architecture diagrams, and working demo projects in **Java** and **Python**.
 
 ---
 
@@ -43,6 +43,14 @@ Enables microservices to **dynamically discover and communicate** with each othe
 Implements a **fault-tolerant mechanism** that prevents cascading failures by automatically detecting and isolating faulty services. Uses a three-state model (CLOSED → OPEN → HALF-OPEN) with fallback responses and self-healing recovery.
 
 > **Demo:** Medical appointment system — protecting booking service from payment service failures
+
+---
+
+### 6. [Saga Pattern](./06-saga-pattern/README.md)
+
+Manages **distributed transactions** and maintains consistency across multiple microservices without using global ACID transactions. Breaks complex flows into a sequence of local transactions, employing compensating transactions (rollbacks) when failures occur.
+
+> **Demo:** E-Commerce order processing — coordinating order creation, payment processing, and inventory reservation
 
 ---
 
