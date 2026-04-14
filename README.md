@@ -1,6 +1,6 @@
 # Microservices Design Patterns
 
-A comprehensive collection of **6 essential microservices design patterns** — each with detailed documentation, architecture diagrams, and working demo projects in **Java** and **Python**.
+A comprehensive collection of **9 essential microservices design patterns** — each with detailed documentation, architecture diagrams, and working demo projects in **Java** and **Python**.
 
 ---
 
@@ -51,6 +51,30 @@ Implements a **fault-tolerant mechanism** that prevents cascading failures by au
 Manages **distributed transactions** and maintains consistency across multiple microservices without using global ACID transactions. Breaks complex flows into a sequence of local transactions, employing compensating transactions (rollbacks) when failures occur.
 
 > **Demo:** E-Commerce order processing — coordinating order creation, payment processing, and inventory reservation
+
+---
+
+### 7. [CQRS Pattern](./07-cqrs-pattern/README.md)
+
+Stands for **Command Query Responsibility Segregation**. Separates data mutation operations (Commands) from data retrieval operations (Queries) into completely distinct models, maximizing optimization and scaling for read-heavy applications.
+
+> **Demo:** Optimized user repository with separate Write (entity) and Read (flat view) services
+
+---
+
+### 8. [Event Sourcing Pattern](./08-event-sourcing-pattern/README.md)
+
+Replaces traditional CRUD database updates by storing the state of the system as an **append-only sequence of immutable events**. Current state is established by replaying the event log from the beginning.
+
+> **Demo:** Shopping Cart entity rebuilding its inventory purely by replaying historical events
+
+---
+
+### 9. [Sidecar Pattern](./09-sidecar-pattern/README.md)
+
+Attaches a secondary container/process (the sidecar) to a primary microservice to handle **cross-cutting concerns** like logging, proxying, monitoring, or networking without mutating the primary application's codebase.
+
+> **Demo:** A logging/tracing Sidecar intercepting and formatting output from a naive legacy application
 
 ---
 
