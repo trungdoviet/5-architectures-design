@@ -207,3 +207,24 @@ python test_client.py
 - **Rate limiting** protects all services uniformly
 - The **feed endpoint** demonstrates aggregation (combining user + posts data)
 - **Request logging** at the gateway provides visibility into all traffic
+
+
+## 7. Key Takeaway
+> **Centralize external concerns.** An API Gateway acts as the single entry point for clients, handling cross-cutting concerns (authentication, routing, rate limiting) so microservices can focus solely on business logic.
+
+## 8. Knowledge Quiz
+
+<details>
+<summary><strong>Question 1: Why use an API Gateway instead of direct client-to-microservice communication?</strong></summary>
+Direct communication creates tight coupling, forces the client to handle multiple addresses/protocols, and makes cross-cutting concerns (auth, logging) redundant across services.
+</details>
+
+<details>
+<summary><strong>Question 2: What is "Gateway Aggregation"?</strong></summary>
+The capability of an API Gateway to receive a single client request, trigger multiple internal backend microservices, aggregate their responses, and send a unified payload back to the client.
+</details>
+
+<details>
+<summary><strong>Question 3: What is the main risk of the API Gateway pattern?</strong></summary>
+It introduces a Single Point of Failure and a potential performance bottleneck if not scaled correctly.
+</details>

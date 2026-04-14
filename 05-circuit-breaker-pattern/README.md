@@ -202,3 +202,24 @@ python test_client.py
 - **Fallback responses** ensure users get polite error messages, not HTTP 500s
 - The circuit **self-heals** — it automatically retests the Payment Service and recovers
 - **State transitions** are clearly logged for monitoring and debugging
+
+
+## 7. Key Takeaway
+> **Fail fast and prevent cascades.** A Circuit Breaker protects a struggling service from being overloaded and isolates failures so that one faulty microservice doesn't take down the entire system.
+
+## 8. Knowledge Quiz
+
+<details>
+<summary><strong>Question 1: What does it mean when the circuit is "OPEN"?</strong></summary>
+The downstream service is deemed unhealthy, so requests are immediately rejected (or fallback responses are returned) without attempting to hit the downstream service.
+</details>
+
+<details>
+<summary><strong>Question 2: How does the circuit transition back to "CLOSED"?</strong></summary>
+After a timeout in the OPEN state, it goes to "HALF-OPEN" and allows a limited number of test requests. If they succeed, the circuit closes (normal operation resumes). If they fail, it trips back to OPEN.
+</details>
+
+<details>
+<summary><strong>Question 3: What is a "Fallback Response"?</strong></summary>
+A graceful degradation strategy where the caller receives cached data, default values, or a polite error instead of a complete failure or timeout when the circuit is tripped.
+</details>

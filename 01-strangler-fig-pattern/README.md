@@ -184,3 +184,24 @@ python test_client.py
 - The **monolith** and **microservice** run simultaneously without conflicts
 - **Rollback** is instant — just change the routing rule in the facade
 - The pattern enables **zero-downtime migration** with minimal risk
+
+
+## 7. Key Takeaway
+> **Migrate gradually, not suddenly.** The Strangler Fig pattern minimizes risk by allowing a legacy monolith to be replaced service-by-service without downtime.
+
+## 8. Knowledge Quiz
+
+<details>
+<summary><strong>Question 1: What is the primary purpose of the Strangler Fig pattern?</strong></summary>
+To run legacy and new systems in parallel and gradually route traffic from the old monolith to the new microservices until the monolith is retired.
+</details>
+
+<details>
+<summary><strong>Question 2: What component makes the routing decisions in this pattern?</strong></summary>
+A routing facade or reverse proxy (e.g., NGINX, API Gateway) placed at the edge of the system.
+</details>
+
+<details>
+<summary><strong>Question 3: When should you NOT use the Strangler Fig pattern?</strong></summary>
+When the system is small, easy to rewrite entirely in one go, or when the cost of maintaining the legacy and new systems concurrently outweighs the migration benefits.
+</details>

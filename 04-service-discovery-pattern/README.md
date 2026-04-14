@@ -207,3 +207,24 @@ python test_client.py
 - The registry **detects failures** via missed heartbeats
 - **Multiple instances** of the same service are discoverable
 - Clients use **service names** (not URLs) to find services, enabling location-transparent communication
+
+
+## 7. Key Takeaway
+> **Services should find each other automatically.** Service Discovery eliminates hardcoded static IP configurations, allowing microservices to register dynamically and be discovered at runtime, which is crucial for auto-scaling and ephemeral environments.
+
+## 8. Knowledge Quiz
+
+<details>
+<summary><strong>Question 1: What is the difference between Client-Side and Server-Side discovery?</strong></summary>
+In Client-Side, the client queries the registry and load balances the request itself. In Server-Side, a proxy queries the registry and routes the traffic on behalf of the client.
+</details>
+
+<details>
+<summary><strong>Question 2: What is the "Registry" in this pattern?</strong></summary>
+A highly available database containing the network locations (IPs and Ports) of available service instances (e.g., Consul, Eureka).
+</details>
+
+<details>
+<summary><strong>Question 3: How does the Service Registry know when a node has died?</strong></summary>
+Through health checks or missing heartbeats. If an instance stops sending periodic heartbeats, the registry removes it from the list of available services.
+</details>

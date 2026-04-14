@@ -110,13 +110,37 @@ Log every state transition in the saga so it can be resumed if a service crashes
 ### Scenario: E-Commerce Order Processing
 
 We will simulate an **Orchestrated Saga**:
-- **Order Service (Orchestrator)**
-- **Payment Service**
-- **Inventory Service**
+- **Order Service (Orchestrator)**: Manages the `create_order` process and tracks saga state (`PENDING`, `APPROVED`, `FAILED`, `CANCELLED`).
+- **Payment Service**: Exposes `process_payment` and a compensating action `refund_payment`.
+- **Inventory Service**: Exposes `reserve_stock`.
 
 We will demonstrate:
 1. **Happy Path**: Order is created -> Payment successful -> Inventory reserved -> Order Approved.
 2. **Failure Path**: Order is created -> Payment successful -> Inventory runs out -> **Payment Refunded (Compensation)** -> Order Cancelled.
+
+### Demo Results
+
+When running either the Python or Java demo, you will observe the following console output simulating the sequence of events:
+
+```text
+=== SCENARIO 1: Happy Path ===
+
+--- Starting Saga for Order 101 ---
+[PaymentService] Processing payment of $1000.0 for order 101...
+[InventoryService] Attempting to reserve 1 units of item Laptop for order 101...
+[InventoryService] Successfully reserved 1 units. Remaining stock: 1
+--- Saga Completed Successfully for Order 101 ---
+
+=== SCENARIO 2: Failure Path (Out of Stock) ===
+
+--- Starting Saga for Order 102 ---
+[PaymentService] Processing payment of $2000.0 for order 102...
+[InventoryService] Attempting to reserve 2 units of item Laptop for order 102...
+[InventoryService] ❌ FAILED: Out of stock! Remaining: 1, Requested: 2
+[Orchestrator] Inventory reservation failed, initiating compensation...
+[PaymentService] ⚠️ COMPENSATING ACTION: Refunding $2000.0 for order 102...
+--- Saga Failed and Compensated for Order 102 ---
+```
 
 ### How to Run
 
@@ -142,3 +166,24 @@ java -cp out SagaDemo
 - The Orchestrator clearly defines the sequence of operations.
 - Failures in the downstream (`InventoryService`) do not leave the system in an inconsistent state, as the Orchestrator safely unwinds the transaction.
 - The compensating transaction (`refund_payment`) effectively functions as a distributed rollback.
+
+
+## 7. Key Takeaway
+> **Embrace eventual consistency over global locks.** The Saga pattern splits wide-spanning distributed transactions into local steps, utilizing Compensating actions to "rollback" changes if a downstream failure occurs.
+
+## 8. Knowledge Quiz
+
+<details>
+<summary><strong>Question 1: Why not just use Two-Phase Commit (2PC) instead of a Saga?</strong></summary>
+2PC requires blocking locks across all databases simultaneously, which heavily impacts performance and availability, and doesn't scale well in large microservice ecosystems.
+</details>
+
+<details>
+<summary><strong>Question 2: What is the main difference between Choreography and Orchestration in Sagas?</strong></summary>
+Choreography uses decentralized, event-driven triggers between services. Orchestration uses a centralized controller (Orchestrator) to deliberately command services and manage the state.
+</details>
+
+<details>
+<summary><strong>Question 3: What is a Compensating Transaction?</strong></summary>
+An operation that logically undoes the work of a previously successful step in the saga (e.g., if "Charge Card" succeeded but stock reservation failed, the compensating action is "Refund Card").
+</details>
